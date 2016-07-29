@@ -185,6 +185,8 @@ extern WandExport MagickBooleanType
     const MagickBooleanType),
   MagickLabelImage(MagickWand *,const char *),
   MagickLevelImage(MagickWand *,const double,const double,const double),
+  MagickLevelImageColors(MagickWand *,const PixelWand *, const PixelWand *,
+    const MagickBooleanType),
   MagickLinearStretchImage(MagickWand *,const double,const double),
   MagickLiquidRescaleImage(MagickWand *,const size_t,const size_t,const double,
     const double),

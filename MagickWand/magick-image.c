@@ -6447,6 +6447,65 @@ WandExport MagickBooleanType MagickLevelImage(MagickWand *wand,
 %                                                                             %
 %                                                                             %
 %                                                                             %
+%   M a g i c k L e v e l I m a g e C o l or s                                %
+%                                                                             %
+%                                                                             %
+%                                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  MagickLevelImageColors() maps the given color to "black" and "white" values,
+%  linearly spreading out the colors.
+%
+%  If the boolean 'invert' is set true the image values will modifyed in the
+%  reverse direction. That is any existing "black" and "white" colors in the
+%  image will become the color values given, with all other values compressed
+%  appropriatally.  This effectivally maps a greyscale gradient into the given
+%  color gradient.
+%
+%  The format of the LevelImageColors method is:
+%
+%    MagickBooleanType MagickLevelImageColors(MagickWand *wand,
+%      const PixelWand *black_color, const PixelWand *white_color,
+%      const MagickBooleanType invert)
+%
+%  A description of each parameter follows:
+%
+%    o wand: the magick wand.
+%
+%    o black_color: The pixel wand to map black to/from
+%
+%    o white_color: The pixel wand to map white to/from
+%
+%    o invert: if true map the colors (levelize), rather than from (level)
+*/
+WandExport MagickBooleanType MagickLevelImageColors(MagickWand *wand,
+  const PixelWand *black_color, const PixelWand *white_color,
+  const MagickBooleanType invert)
+{
+  MagickBooleanType
+    status;
+  PixelInfo
+    black_point,
+    white_point;
+
+  assert(wand != (MagickWand *) NULL);
+  assert(wand->signature == MagickWandSignature);
+  if (wand->debug != MagickFalse)
+    (void) LogMagickEvent(WandEvent,GetMagickModule(),"%s",wand->name);
+  if (wand->images == (Image *) NULL)
+    ThrowWandException(WandError,"ContainsNoImages",wand->name);
+  PixelGetMagickColor(black_color,&black_point);
+  PixelGetMagickColor(white_color,&white_point);
+  status = LevelImageColors(wand->images,&black_point,&white_point,
+    invert,wand->exception);
+  return(status);
+}
+
+/*
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                             %
+%                                                                             %
+%                                                                             %
 %   M a g i c k L i n e a r S t r e t c h I m a g e                           %
 %                                                                             %
 %                                                                             %
